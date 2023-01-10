@@ -16,12 +16,13 @@ import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
+import Link from "next/link";
 
 const Container = styled.div`
   flex: 1;
-  background-color: #202020;
+  background-color: ${({ theme }) => theme.bgLighter};
   height: 100vh;
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 14px;
   overflow: auto;
   position: sticky;
@@ -54,7 +55,7 @@ const Item = styled.div`
 
 const Hr = styled.div`
   margin: 15px 0px;
-  border: 0.5px solid #373737;
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Login = styled.div``;
@@ -72,14 +73,23 @@ const Button = styled.button`
   gap: 5px;
 `;
 
-const Menu = () => {
+const Title = styled.h2`
+  font-size: 14px;
+  font-weight: 500;
+  color: #aaaaaa;
+  margin-bottom: 20px;
+`;
+
+const Menu = ({ setDarkMode, darkMode }) => {
   return (
     <Container>
       <Wrapper>
-        <Logo>
-          <Img src="/images/logo.png" alt="logo" />
-          VideoZone
-        </Logo>
+        <Link href="/">
+          <Logo>
+            <Img src="/images/logo.png" alt="logo" />
+            VideoZone
+          </Logo>
+        </Link>
         <Item>
           <HomeIcon />
           Home
@@ -111,6 +121,7 @@ const Menu = () => {
           </Button>
         </Login>
         <Hr />
+        <Title>BEST OF VIDEOZONE</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
           Music
@@ -148,9 +159,9 @@ const Menu = () => {
           <HelpOutlineOutlinedIcon />
           Help
         </Item>
-        <Item>
+        <Item onClick={() => setDarkMode((prev) => !prev)}>
           <SettingsBrightnessOutlinedIcon />
-          Light Mode
+          {darkMode ? "Light " : "Dark "} Mode
         </Item>
       </Wrapper>
     </Container>
