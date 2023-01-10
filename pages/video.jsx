@@ -6,6 +6,7 @@ import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutl
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
+import Card from "../components/Card";
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const Content = styled.div`
 `;
 
 const Recommendation = styled.div`
-  flex: 2;
+  flex: 3;
 `;
 
 const VideoWrapper = styled.div``;
@@ -108,7 +109,7 @@ const Subscribe = styled.button`
 
 const Video = ({ setDarkMode, darkMode }) => {
   return (
-    <ParentWrapper setDarkMode={setDarkMode} darkMode={darkMode}>
+    <ParentWrapper setDarkMode={setDarkMode} darkMode={darkMode} type="details">
       <Container>
         <Content>
           <VideoWrapper>
@@ -162,7 +163,14 @@ const Video = ({ setDarkMode, darkMode }) => {
           <Hr />
           <Comments />
         </Content>
-        <Recommendation>Recommendation part</Recommendation>
+        <Recommendation>
+          <Card type="sm" />
+          <Card type="sm" />
+          <Card type="sm" />
+          <Card type="sm" />
+          <Card type="sm" />
+          <Card type="sm" />
+        </Recommendation>
       </Container>
     </ParentWrapper>
   );

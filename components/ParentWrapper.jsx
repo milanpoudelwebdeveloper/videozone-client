@@ -13,15 +13,16 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 22px 96px;
+  padding: 22px ${(props) => (props.type === "details" ? "30px" : "96px")}};
 `;
-const ParentWrapper = ({ children, setDarkMode, darkMode }) => {
+
+const ParentWrapper = ({ children, setDarkMode, darkMode, type }) => {
   return (
     <Container>
       <Menu setDarkMode={setDarkMode} darkMode={darkMode} />
       <Main>
         <Navbar />
-        <Wrapper>{children}</Wrapper>
+        <Wrapper type={type}>{children}</Wrapper>
       </Main>
     </Container>
   );
