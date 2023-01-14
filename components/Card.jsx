@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Container = styled.div`
   width: ${(props) => (props.type !== "sm" ? "360px" : "100%")};
-  margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
+  margin-bottom: ${(props) => (props.type === "sm" ? "15px" : "45px")};
   cursor: pointer;
   display: ${(props) => props.type === "sm" && "flex"};
   gap: 10px;
@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
+  height: ${(props) => (props.type === "sm" ? "50px" : "202px")};
   background-color: #999;
   flex: 1;
 `;

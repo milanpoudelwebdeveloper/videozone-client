@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
@@ -17,6 +17,7 @@ import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import Link from "next/link";
+import SignUpModal from "./SignUpModal";
 
 const Container = styled.div`
   flex: 1;
@@ -84,90 +85,98 @@ const Title = styled.h2`
 `;
 
 const Menu = ({ setDarkMode, darkMode }) => {
-  return (
-    <Container>
-      <Wrapper>
-        <Link href="/">
-          <Logo>
-            <Img src="/images/logo.png" alt="logo" />
-            VideoZone
-          </Logo>
-        </Link>
-        <Item>
-          <HomeIcon />
-          Home
-        </Item>
-        <Item>
-          <ExploreOutlinedIcon />
-          Explore
-        </Item>
-        <Item>
-          <SubscriptionsOutlinedIcon />
-          Subscriptions
-        </Item>
+  const [modalIsOpen, setIsOpen] = useState(false);
 
-        <Hr />
-        <Item>
-          <VideoLibraryOutlinedIcon />
-          Library
-        </Item>
-        <Item>
-          <HistoryOutlinedIcon />
-          History
-        </Item>
-        <Hr />
-        <Login>
-          Sign in to like videos, comment, and subscribe.
-          <Button>
-            <AccountCircleOutlinedIcon />
-            SIGN IN
-          </Button>
-        </Login>
-        <Hr />
-        <Title>BEST OF VIDEOZONE</Title>
-        <Item>
-          <LibraryMusicOutlinedIcon />
-          Music
-        </Item>
-        <Item>
-          <SportsBasketballOutlinedIcon />
-          Sports
-        </Item>
-        <Item>
-          <SportsEsportsOutlinedIcon />
-          Gaming
-        </Item>
-        <Item>
-          <MovieOutlinedIcon />
-          Movies
-        </Item>
-        <Item>
-          <ArticleOutlinedIcon />
-          News
-        </Item>
-        <Item>
-          <LiveTvOutlinedIcon />
-          Live
-        </Item>
-        <Hr />
-        <Item>
-          <SettingsOutlinedIcon />
-          Settings
-        </Item>
-        <Item>
-          <FlagOutlinedIcon />
-          Report
-        </Item>
-        <Item>
-          <HelpOutlineOutlinedIcon />
-          Help
-        </Item>
-        <Item onClick={() => setDarkMode((prev) => !prev)}>
-          <SettingsBrightnessOutlinedIcon />
-          {darkMode ? "Light " : "Dark "} Mode
-        </Item>
-      </Wrapper>
-    </Container>
+  return (
+    <>
+      <Container>
+        <Wrapper>
+          <Link href="/">
+            <Logo>
+              <Img src="/images/logo.png" alt="logo" />
+              VideoZone
+            </Logo>
+          </Link>
+          <Item>
+            <HomeIcon />
+            Home
+          </Item>
+          <Item>
+            <ExploreOutlinedIcon />
+            Explore
+          </Item>
+          <Item>
+            <SubscriptionsOutlinedIcon />
+            Subscriptions
+          </Item>
+
+          <Hr />
+          <Item>
+            <VideoLibraryOutlinedIcon />
+            Library
+          </Item>
+          <Item>
+            <HistoryOutlinedIcon />
+            History
+          </Item>
+          <Hr />
+          <Login>
+            Sign in to like videos, comment, and subscribe.
+            <Button onClick={() => setIsOpen(true)}>
+              <AccountCircleOutlinedIcon />
+              SIGN IN
+            </Button>
+          </Login>
+          <Hr />
+          <Title>BEST OF VIDEOZONE</Title>
+          <Item>
+            <LibraryMusicOutlinedIcon />
+            Music
+          </Item>
+          <Item>
+            <SportsBasketballOutlinedIcon />
+            Sports
+          </Item>
+          <Item>
+            <SportsEsportsOutlinedIcon />
+            Gaming
+          </Item>
+          <Item>
+            <MovieOutlinedIcon />
+            Movies
+          </Item>
+          <Item>
+            <ArticleOutlinedIcon />
+            News
+          </Item>
+          <Item>
+            <LiveTvOutlinedIcon />
+            Live
+          </Item>
+          <Hr />
+          <Item>
+            <SettingsOutlinedIcon />
+            Settings
+          </Item>
+          <Item>
+            <FlagOutlinedIcon />
+            Report
+          </Item>
+          <Item>
+            <HelpOutlineOutlinedIcon />
+            Help
+          </Item>
+          <Item onClick={() => setDarkMode((prev) => !prev)}>
+            <SettingsBrightnessOutlinedIcon />
+            {darkMode ? "Light " : "Dark "} Mode
+          </Item>
+        </Wrapper>
+      </Container>
+      <SignUpModal
+        modalIsOpen={modalIsOpen}
+        closeModal={() => setIsOpen(false)}
+      />
+    </>
   );
 };
 
