@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import moment from "moment";
 
 const Container = styled.div`
   width: ${(props) => (props.type !== "sm" ? "360px" : "100%")};
@@ -51,17 +52,19 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
   return (
-    <Link href="/video">
+    <Link href={`/video/${video?.id}`}>
       <Container type={type}>
-        <Image src="https://i.ytimg.com/vi/2g811Eo7K8U/maxresdefault.jpg" />
+        <Image src={video?.thumbnail} />
         <Details>
           <ChannelImage type={type} />
           <Texts>
-            <Title>Test video</Title>
-            <ChannelName>Milan Poudel</ChannelName>
-            <Info>1.2M views • 2 years ago</Info>
+            <Title>{video?.title}</Title>
+            <ChannelName>{video?.channelname}</ChannelName>
+            <Info>
+              {video?.videoviews} views • {moment(video?.createdat).fromNow()}
+            </Info>
           </Texts>
         </Details>
       </Container>

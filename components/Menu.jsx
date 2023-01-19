@@ -18,6 +18,9 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import Link from "next/link";
 import SignUpModal from "./SignUpModal";
+import { logout } from "../redux/slices/user";
+import { useDispatch, useSelector } from "react-redux";
+import { axiosInstance } from "../axiosConfig";
 
 const Container = styled.div`
   flex: 1;
@@ -86,6 +89,17 @@ const Title = styled.h2`
 
 const Menu = ({ setDarkMode, darkMode }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const user = useSelector((state) => state.userReducer.user);
+  const dispatch = useDispatch();
+
+  const authHandler = async () => {
+    if (user) {
+      await axiosInstance.get("/auth/logout");
+      dispatch(logout());
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   return (
     <>
@@ -122,9 +136,9 @@ const Menu = ({ setDarkMode, darkMode }) => {
           <Hr />
           <Login>
             Sign in to like videos, comment, and subscribe.
-            <Button onClick={() => setIsOpen(true)}>
+            <Button onClick={authHandler}>
               <AccountCircleOutlinedIcon />
-              SIGN IN
+              {user ? "SIGN OUT" : "SIGN IN"}
             </Button>
           </Login>
           <Hr />

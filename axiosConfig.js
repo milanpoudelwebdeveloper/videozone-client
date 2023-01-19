@@ -2,7 +2,7 @@ import axios from "axios";
 import { store } from "./redux/store";
 import { login } from "./redux/slices/user";
 
-const baseURL = "http://localhost:8000/api";
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -16,10 +16,6 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = window.localStorage.getItem("accessToken");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
     return config;
   },
   (error) => {
@@ -32,8 +28,6 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log("there is an error");
-    console.log(error);
     const originalRequest = error.config;
     if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
+import { useSelector } from "react-redux";
+import Link from "next/link";
+import UploadVideoModal from "./UploadVideo";
+import { Avatar } from "@mui/material";
+import SignUpModal from "./SignUpModal";
 
 const Container = styled.div`
   position: sticky;
@@ -54,7 +60,19 @@ const Button = styled.button`
   gap: 5px;
 `;
 
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+`;
+
 const Navbar = () => {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [signIn, setSignIn] = useState(false);
+  const user = useSelector((state) => state.userReducer.user);
+
   return (
     <Container>
       <Wrapper>
@@ -62,11 +80,24 @@ const Navbar = () => {
           <Input placeholder="Search" />
           <SearchOutlinedIcon />
         </Search>
-        <Button>
-          <AccountCircleOutlinedIcon />
-          SIGN IN
-        </Button>
+        {user ? (
+          <User>
+            <VideoCallOutlinedIcon onClick={() => setIsOpen(true)} />
+            <Avatar src={user?.img} />
+            {user?.name}
+          </User>
+        ) : (
+          <Button onClick={() => setSignIn(true)}>
+            <AccountCircleOutlinedIcon />
+            SIGN IN
+          </Button>
+        )}
       </Wrapper>
+      <UploadVideoModal
+        modalIsOpen={modalIsOpen}
+        closeModal={() => setIsOpen(false)}
+      />
+      <SignUpModal modalIsOpen={signIn} closeModal={() => setSignIn(false)} />
     </Container>
   );
 };
