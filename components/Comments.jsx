@@ -56,7 +56,7 @@ const Comments = ({ videoId }) => {
       setNewComment("");
     } catch (e) {
       console.log("Something went wrong while posting comment", e);
-      toast.error("Something went wrong while posting comment");
+      toast.error(e.response.data.message);
     }
   };
 
