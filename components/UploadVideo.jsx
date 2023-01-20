@@ -87,7 +87,6 @@ const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
   const [videoPercentage, setVideoPercentage] = useState(0);
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPercentage, setThumbnailPercentage] = useState(0);
-  const [successResponse, setSuccessResponse] = useState(false);
 
   const router = useRouter();
 
@@ -109,16 +108,6 @@ const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
       uploadThumbnailFile(thumbnailFile);
     }
   }, [thumbnailFile]);
-
-  useEffect(() => {
-    let timeId;
-    if (successResponse) {
-      timeId = setTimeout(() => {
-        router.push(`/video/${res?.data?.video?.id}`);
-      }, 700);
-    }
-    return () => clearTimeout(timeId);
-  }, [successResponse]);
 
   const uploadVideoFile = (file) => {
     if (!file) return;
@@ -148,7 +137,7 @@ const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
       toast.success(res?.data?.message);
       reset();
       closeModal();
-      setSuccessResponse(true);
+      router.push(`/video/${res?.data?.video?.id}`);
     } catch (e) {
       console.log("Something went wrong while uploading video", e);
       toast.error(e?.response?.data?.message);

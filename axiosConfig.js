@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const response = await axios.get("/api/auth/refresh", {
+      const response = await axiosInstance.get("/auth/refresh", {
         withCredentials: true,
       });
       store.dispatch(

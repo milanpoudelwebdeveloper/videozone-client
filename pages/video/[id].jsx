@@ -271,7 +271,7 @@ const Video = ({ setDarkMode, darkMode }) => {
             </Subscribe>
           </Channel>
           <Hr />
-          <Comments />
+          <Comments videoId={id} />
         </Content>
         <Recommendation>
           <Card type="sm" />
