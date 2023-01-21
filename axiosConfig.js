@@ -1,12 +1,13 @@
 import axios from "axios";
 import { store } from "./redux/store";
-import { login } from "./redux/slices/user";
+import { setLogin, logout } from "./redux/slices/user";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
+axios.defaults.baseURL = baseURL;
+
 export const axiosInstance = axios.create({
   withCredentials: true,
-  baseURL,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -28,19 +29,19 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
-    if (error?.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      const response = await axiosInstance.get("/auth/refresh", {
+    const originalRequest = error?.config;
+    if (error?.response?.status === 401 && !originalRequest.sent) {
+      console.log("yes the response is", error.response.status);
+      originalRequest.sent = true;
+      const response = await axios.get("/auth/refresh", {
         withCredentials: true,
       });
-      store.dispatch(
-        login({
-          token: response.data.accessToken,
-          user: response.data.user,
-        })
-      );
-      return axiosInstance(originalRequest);
+      if (response.status === 200) {
+        store.dispatch(setLogin({ user: response.data.user }));
+        return axiosInstance(originalRequest);
+      } else {
+        store.dispatch(logout());
+      }
     }
     return Promise.reject(error);
   }

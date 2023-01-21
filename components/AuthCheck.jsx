@@ -11,7 +11,6 @@ const AuthCheck = () => {
       .then((res) => {
         dispatch(
           setLogin({
-            token: res?.data?.accessToken,
             user: res?.data?.user,
           })
         );

@@ -167,6 +167,7 @@ const Video = ({ setDarkMode, darkMode }) => {
         setDisLikes((prev) => prev - 1);
       }
       setLikedByMe(true);
+      toast.success("Liked video successfully");
     } catch (e) {
       console.log("Something went wrong while liking video", e);
       toast.error(e.response.data.message);
@@ -189,6 +190,7 @@ const Video = ({ setDarkMode, darkMode }) => {
       }
       setDisLikes((prev) => prev + 1);
       setLikedByMe(false);
+      toast.success("Disliked video successfully");
     } catch (e) {
       console.log("Something went wrong while disliking video", e);
       toast.error(e.response.data.message);

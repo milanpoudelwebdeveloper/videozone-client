@@ -68,7 +68,7 @@ const Login = ({ setSignUp, closeModal }) => {
       closeModal();
     } catch (e) {
       console.log("Something went wrong while loggin in", e);
-      toast.error("Something went wrong while loggin in");
+      toast.error(e.response?.data?.message);
     }
   };
 
