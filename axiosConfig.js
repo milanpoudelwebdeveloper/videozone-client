@@ -37,6 +37,7 @@ axiosInstance.interceptors.response.use(
         withCredentials: true,
       });
       if (response.status === 200) {
+        console.log("hey I am successful here");
         store.dispatch(setLogin({ user: response.data.user }));
         return axiosInstance(originalRequest);
       } else {
