@@ -36,6 +36,7 @@ axiosInstance.interceptors.response.use(
       const response = await axios.get("/auth/refresh", {
         withCredentials: true,
       });
+      console.log("hey I am here", response);
       if (response.status === 200) {
         console.log("hey I am successful here");
         store.dispatch(setLogin({ user: response.data.user }));
