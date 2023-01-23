@@ -27,7 +27,9 @@ const Recommendation = styled.div`
   flex: 3;
 `;
 
-const VideoWrapper = styled.div``;
+const VideoWrapper = styled.div`
+  transition: all 0.5s ease;
+`;
 
 const Title = styled.h1`
   font-size: 18px;
@@ -138,7 +140,7 @@ const Video = ({ setDarkMode, darkMode }) => {
 
   const getVideoDetails = async (id) => {
     try {
-      const res = await axiosInstance.get("/videos/" + id);
+      const res = await axiosInstance.get("/videos/find/" + id);
       setVideoDetails(res?.data?.video);
       setLikes(Number(res?.data?.video?.likedcount));
       setDisLikes(Number(res?.data?.video?.dislikecount));

@@ -8,6 +8,7 @@ import ErrorText from "./ErrorText";
 import { getStorage, ref } from "firebase/storage";
 import { uploadFile } from "./FirebaseUpload";
 import { useRouter } from "next/router";
+import { categories } from "../constants/category";
 
 const customStyles = {
   content: {
@@ -19,7 +20,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     width: "600px",
-    height: "600px",
+    height: "700px",
     backgroundColor: "transparent",
   },
 };
@@ -78,6 +79,14 @@ const Button = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.textSoft};
+`;
+
+const Select = styled.select`
+  border: 1px solid ${({ theme }) => theme.soft};
+  color: ${({ theme }) => theme.text};
+  border-radius: 3px;
+  padding: 10px;
+  background-color: transparent;
 `;
 
 const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
@@ -171,7 +180,18 @@ const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
             required: "Description is required",
           })}
         />
+
         {errors.descp && <ErrorText error={errors.descp.message} />}
+        <Label>Category</Label>
+        <Select {...register("category", { required: "Category is required" })}>
+          <option value="">Select a category</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </Select>
+        {errors.category && <ErrorText error={errors.category.message} />}
         <Input type="text" placeholder="Separate tags with commas" />
         <Label>Video File</Label>
         {videoPercentage > 0 ? (
