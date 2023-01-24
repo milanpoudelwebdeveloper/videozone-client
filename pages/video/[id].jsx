@@ -12,7 +12,8 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "../../axiosConfig";
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { async } from "@firebase/util";
+import Link from "next/link";
+import Playlists from "../../components/VideoDetails/Playlists";
 
 const Container = styled.div`
   display: flex;
@@ -123,6 +124,7 @@ const VideoFrame = styled.video`
 
 const Video = ({ setDarkMode, darkMode }) => {
   const [videoDetails, setVideoDetails] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDisLikes] = useState(0);
   const [likedByMe, setLikedByMe] = useState(undefined);
@@ -146,6 +148,7 @@ const Video = ({ setDarkMode, darkMode }) => {
       setDisLikes(Number(res?.data?.video?.dislikecount));
       setLikedByMe(res?.data?.video?.likedbyme);
       setSubscribed(res?.data?.video?.subscribedbyme);
+      setRecommendations(res?.data?.recommendations);
     } catch (e) {
       console.log("Something went wrong while getting video details", e);
       toast.error("Something went wrong while getting video details");
@@ -219,7 +222,7 @@ const Video = ({ setDarkMode, darkMode }) => {
     "https://img.freepik.com/free-photo/beautiful-flowers-bouquet-with-copy-space_23-2149053793.jpg?w=2000";
 
   return (
-    <ParentWrapper setDarkMode={setDarkMode} darkMode={darkMode} type="details">
+    <ParentWrapper setDarkMode={setDarkMode} darkMode={darkMode} padding="30px">
       <Container>
         <Content>
           <VideoWrapper>
@@ -247,9 +250,12 @@ const Video = ({ setDarkMode, darkMode }) => {
               <Button>
                 <ReplyOutlinedIcon /> Share
               </Button>
-              <Button>
-                <AddTaskOutlinedIcon /> Save
-              </Button>
+              <div style={{ position: "relative" }}>
+                <Button>
+                  <AddTaskOutlinedIcon /> Save
+                </Button>
+                <Playlists videoId={videoDetails?.id} />
+              </div>
             </Buttons>
           </Details>
           <Hr />
@@ -264,7 +270,9 @@ const Video = ({ setDarkMode, darkMode }) => {
                 alt="channel-image"
               />
               <ChannelDetail>
-                <ChannelName>{videoDetails?.channelname}</ChannelName>
+                <Link href={`/channel/${videoDetails?.channelid}`}>
+                  <ChannelName>{videoDetails?.channelname}</ChannelName>
+                </Link>
                 <ChannelCounter>{videoDetails?.subscribecount}</ChannelCounter>
                 <Description>{videoDetails?.descp}</Description>
               </ChannelDetail>
@@ -278,12 +286,9 @@ const Video = ({ setDarkMode, darkMode }) => {
           <Comments videoId={id} />
         </Content>
         <Recommendation>
-          <Card type="sm" />
-          <Card type="sm" />
-          <Card type="sm" />
-          <Card type="sm" />
-          <Card type="sm" />
-          <Card type="sm" />
+          {recommendations?.map((item) => (
+            <Card key={item.id} type="sm" video={item} />
+          ))}
         </Recommendation>
       </Container>
     </ParentWrapper>

@@ -111,19 +111,22 @@ const Menu = ({ setDarkMode, darkMode }) => {
               VideoZone
             </Logo>
           </Link>
-          <Item>
-            <HomeIcon />
-            Home
-          </Item>
+          <Link href="/">
+            <Item>
+              <HomeIcon />
+              Home
+            </Item>
+          </Link>
           <Item>
             <ExploreOutlinedIcon />
             Explore
           </Item>
-          <Item>
-            <SubscriptionsOutlinedIcon />
-            Subscriptions
-          </Item>
-
+          <Link href="/subscriptions">
+            <Item>
+              <SubscriptionsOutlinedIcon />
+              Subscriptions
+            </Item>
+          </Link>
           <Hr />
           <Item>
             <VideoLibraryOutlinedIcon />

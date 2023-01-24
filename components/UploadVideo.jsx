@@ -89,6 +89,10 @@ const Select = styled.select`
   background-color: transparent;
 `;
 
+const Note = styled.p`
+  font-size: 12px;
+  color: ${({ theme }) => theme.textSoft};
+`;
 const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
   const [video, setVideo] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
@@ -192,6 +196,11 @@ const UploadVideoModal = ({ modalIsOpen, closeModal }) => {
           ))}
         </Select>
         {errors.category && <ErrorText error={errors.category.message} />}
+        <Label>Label</Label>
+        <Note>
+          Note: Please add tags so that your videos can be suggested in
+          recommendations better
+        </Note>
         <Input type="text" placeholder="Separate tags with commas" />
         <Label>Video File</Label>
         {videoPercentage > 0 ? (

@@ -58,10 +58,14 @@ const Card = ({ type, video }) => {
       <Container type={type}>
         <Image src={video?.thumbnail} />
         <Details>
-          <ChannelImage type={type} />
+          {video?.channelimage && (
+            <ChannelImage type={type} src={video?.channelimage} />
+          )}
           <Texts>
             <Title>{video?.title}</Title>
-            <ChannelName>{video?.channelname}</ChannelName>
+            {video?.channelname && (
+              <ChannelName>{video?.channelname}</ChannelName>
+            )}
             <Info>
               {video?.videoviews} views • {moment(video?.createdat).fromNow()}
             </Info>

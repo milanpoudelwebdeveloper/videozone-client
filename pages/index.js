@@ -31,7 +31,7 @@ const NoVidesFound = styled.p`
 const Home = ({ setDarkMode, darkMode }) => {
   const [loading, setLoading] = useState(false);
   const [videos, setVideos] = useState([]);
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState("all");
   useEffect(() => {
     getVideos(category);
   }, [category]);

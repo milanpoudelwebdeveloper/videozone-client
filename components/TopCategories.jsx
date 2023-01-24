@@ -25,7 +25,9 @@ const Category = styled.div`
   transition: all 0.3s ease;
 `;
 
-const CategoryText = styled.p``;
+const CategoryText = styled.p`
+  text-transform: capitalize;
+`;
 
 const TopCategories = ({ setCategory }) => {
   return (
