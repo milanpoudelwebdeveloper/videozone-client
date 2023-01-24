@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { axiosInstance } from "../axiosConfig";
-import ErrorText from "./ErrorText";
-import { categories } from "../constants/category";
+import ErrorText from "../ErrorText";
+
+import { axiosInstance } from "../../axiosConfig";
 
 const customStyles = {
   content: {
@@ -16,8 +16,8 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "600px",
-    height: "700px",
+    width: "550px",
+    height: "450px",
     backgroundColor: "transparent",
   },
 };
@@ -32,6 +32,7 @@ const Wrapper = styled.div`
   gap: 20px;
 
   padding: 20px;
+  border-radius: 10px;
 `;
 
 const Close = styled.div`
@@ -76,25 +77,52 @@ const Select = styled.select`
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
+  text-transform: capitalize;
 `;
 
-const CreatePlaylist = ({ modalIsOpen, closeModal }) => {
-  const createPlayList = async () => {
-    try {
-      const res = await axiosInstance.post("/playlist", data);
-      toast.success(res?.data?.message);
-      closeModal();
-    } catch (e) {
-      toast.error(e.response.data.message);
-    }
-  };
-
+const CreatePlaylist = ({
+  modalIsOpen,
+  closeModal,
+  addToPlaylist = null,
+  videoId = null,
+  thumbnail = null,
+}) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  const visibility = [
+    {
+      name: "public",
+      value: false,
+    },
+    {
+      name: "private",
+      value: true,
+    },
+  ];
+  const createPlayList = async (data) => {
+    try {
+      const res = await axiosInstance.post("/playlists", data);
+      toast.success(res?.data?.message);
+      addToPlaylist &&
+        addToPlaylist(
+          res?.data?.playlist?.id,
+          videoId,
+          thumbnail,
+          true,
+          res?.data?.playlist
+        );
+      reset();
+      closeModal();
+    } catch (e) {
+      console.log("Something went wrong while creating playlist", e);
+      toast.error(e.response.data.message);
+    }
+  };
 
   return (
     <Modal
@@ -117,13 +145,11 @@ const CreatePlaylist = ({ modalIsOpen, closeModal }) => {
         {errors.title && <ErrorText error={errors.title.message} />}
 
         <Label>Category</Label>
-        <Select
-          {...register("visibility", { required: "Privacy is required" })}
-        >
+        <Select {...register("privacy", { required: "Privacy is required" })}>
           <option value="">Select visibility</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c}
+          {visibility?.map(({ name, value }) => (
+            <option key={name} value={value}>
+              {name}
             </option>
           ))}
         </Select>

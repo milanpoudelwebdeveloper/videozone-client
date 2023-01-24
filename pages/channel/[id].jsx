@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ChannelAbout from "../../components/Channels/ChannelAbout";
 import ChannelPlaylist from "../../components/Channels/ChannelPlaylist";
 import ChannelVideos from "../../components/Channels/ChannelVideos";
-import TabContent from "../../components/Channels/TabContent";
 import Tabs from "../../components/Channels/Tabs";
 
 import ParentWrapper from "../../components/ParentWrapper";
@@ -46,6 +45,7 @@ const ChannelDetail = styled.div`
 const ChannelDetails = () => {
   const [selectedMenu, setSelectedMenu] = useState("Videos");
   const menus = ["Videos", "Playlists", "About"];
+  const content = [<ChannelVideos />, <ChannelPlaylist />, <ChannelAbout />];
 
   const channel = {
     id: 1,
@@ -55,8 +55,6 @@ const ChannelDetails = () => {
     subscriberCount: 100,
     videosCount: 100,
   };
-
-  const content = [<ChannelVideos />, <ChannelPlaylist />, <ChannelAbout />];
 
   return (
     <ParentWrapper padding="0px">
@@ -75,7 +73,7 @@ const ChannelDetails = () => {
           selectedMenu={selectedMenu}
           setSelectedMenu={(menu) => setSelectedMenu(menu)}
         />
-        <TabContent menu={selectedMenu} />
+        {content[menus.indexOf(selectedMenu)]}
       </Container>
     </ParentWrapper>
   );

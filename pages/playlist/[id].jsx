@@ -14,6 +14,7 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Playlists from "../../components/VideoDetails/Playlists";
+import PlaylistVideos from "../../components/PlayLists/PlaylistVideos";
 
 const Container = styled.div`
   display: flex;
@@ -122,8 +123,14 @@ const VideoFrame = styled.video`
   object-fit: cover;
 `;
 
-const Video = ({ setDarkMode, darkMode }) => {
+const SideWrapper = styled.div`
+  padding: 0px 50px;
+`;
+
+const Playlist = ({ setDarkMode, darkMode }) => {
   const [videoDetails, setVideoDetails] = useState(null);
+  const [playlistVideos, setPlaylistVideos] = useState([]);
+  const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDisLikes] = useState(0);
@@ -131,15 +138,33 @@ const Video = ({ setDarkMode, darkMode }) => {
   const [subscribed, setSubscribed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
+
   const {
     query: { id },
   } = useRouter();
 
   useEffect(() => {
     if (id) {
-      getVideoDetails(id);
+      getPlaylistVideos(id);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (selectedVideoId) {
+      getVideoDetails(selectedVideoId);
+    }
+  }, [selectedVideoId]);
+
+  const getPlaylistVideos = async (playlistId) => {
+    try {
+      const res = await axiosInstance.get(`/playlists/videos/${playlistId}`);
+      setPlaylistVideos(res?.data?.videos);
+      setSelectedVideoId(res?.data?.videos[0]?.videoid);
+    } catch (e) {
+      console.log("Something went wrong while getting playlist videos", e);
+      toast.error("Something went wrong while getting playlist videos");
+    }
+  };
 
   const getVideoDetails = async (id) => {
     try {
@@ -222,12 +247,25 @@ const Video = ({ setDarkMode, darkMode }) => {
   const fallBackSrc =
     "https://img.freepik.com/free-photo/beautiful-flowers-bouquet-with-copy-space_23-2149053793.jpg?w=2000";
 
+  const nextHandler = () => {
+    const index = playlistVideos.findIndex(
+      (video) => video.videoid === selectedVideoId
+    );
+    if (index < playlistVideos.length - 1) {
+      setSelectedVideoId(playlistVideos[index + 1].videoid);
+    }
+  };
   return (
     <ParentWrapper setDarkMode={setDarkMode} darkMode={darkMode} padding="30px">
       <Container>
         <Content>
           <VideoWrapper>
-            <VideoFrame src={videoDetails?.videourl} controls muted={false} />
+            <VideoFrame
+              src={videoDetails?.videourl}
+              controls
+              muted={false}
+              onEnded={nextHandler}
+            />
           </VideoWrapper>
           <Title>{videoDetails?.title}</Title>
           <Details>
@@ -292,14 +330,21 @@ const Video = ({ setDarkMode, darkMode }) => {
           <Hr />
           <Comments videoId={id} />
         </Content>
-        <Recommendation>
-          {recommendations?.map((item) => (
-            <Card key={item.id} type="sm" video={item} />
-          ))}
-        </Recommendation>
+        <SideWrapper>
+          <PlaylistVideos
+            videos={playlistVideos}
+            selectedVideoId={selectedVideoId}
+            setSelectedVideoId={setSelectedVideoId}
+          />
+          <Recommendation>
+            {recommendations?.map((item) => (
+              <Card key={item.id} type="sm" video={item} />
+            ))}
+          </Recommendation>
+        </SideWrapper>
       </Container>
     </ParentWrapper>
   );
 };
 
-export default Video;
+export default Playlist;
