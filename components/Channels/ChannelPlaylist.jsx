@@ -10,7 +10,7 @@ const Container = styled.div`
   gap: 20px;
 `;
 
-const ChannelPlaylist = () => {
+const ChannelPlaylist = ({ channelId }) => {
   const [playlists, setPlaylists] = useState([]);
 
   const {
@@ -18,13 +18,15 @@ const ChannelPlaylist = () => {
   } = useRouter();
 
   useEffect(() => {
-    axiosInstance
-      .get(`/playlists/${id}`)
-      .then((res) => setPlaylists(res?.data?.playlists))
-      .catch((e) => {
-        console.log("Something went wrong while getting playlists", e);
-      });
-  }, [id]);
+    if (id || channelId) {
+      axiosInstance
+        .get(`/playlists/${id || channelId}`)
+        .then((res) => setPlaylists(res?.data?.playlists))
+        .catch((e) => {
+          console.log("Something went wrong while getting playlists", e);
+        });
+    }
+  }, [id || channelId]);
 
   return (
     <Container>

@@ -138,6 +138,7 @@ const Video = ({ setDarkMode, darkMode }) => {
   useEffect(() => {
     if (id) {
       getVideoDetails(id);
+      addToHistory(id);
     }
   }, [id]);
 
@@ -153,6 +154,14 @@ const Video = ({ setDarkMode, darkMode }) => {
     } catch (e) {
       console.log("Something went wrong while getting video details", e);
       toast.error("Something went wrong while getting video details");
+    }
+  };
+
+  const addToHistory = async (id) => {
+    try {
+      await axiosInstance.post(`/history/${id}`);
+    } catch (e) {
+      console.log("Something went wrong while adding video to history", e);
     }
   };
 

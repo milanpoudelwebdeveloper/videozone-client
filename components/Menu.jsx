@@ -128,14 +128,18 @@ const Menu = ({ setDarkMode, darkMode }) => {
             </Item>
           </Link>
           <Hr />
-          <Item>
-            <VideoLibraryOutlinedIcon />
-            Library
-          </Item>
-          <Item>
-            <HistoryOutlinedIcon />
-            History
-          </Item>
+          <Link href="/library">
+            <Item>
+              <VideoLibraryOutlinedIcon />
+              Library
+            </Item>
+          </Link>
+          <Link href="/history">
+            <Item>
+              <HistoryOutlinedIcon />
+              History
+            </Item>
+          </Link>
           <Hr />
           <Login>
             Sign in to like videos, comment, and subscribe.

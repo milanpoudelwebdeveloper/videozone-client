@@ -55,7 +55,7 @@ const Home = ({ setDarkMode, darkMode }) => {
           {loading && <VideoSkeleton />}
           {videos?.length < 1 && (
             <NoVidesFound>
-              No videos found. Please try another filter or search{" "}
+              No videos found. Please try another filter or search
             </NoVidesFound>
           )}
           {videos?.map((video) => (
