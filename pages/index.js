@@ -50,7 +50,7 @@ const Home = ({ setDarkMode, darkMode }) => {
   return (
     <ParentWrapper setDarkMode={setDarkMode} darkMode={darkMode}>
       <Container>
-        <TopCategories setCategory={setCategory} />
+        <TopCategories setCategory={setCategory} selectedCategory={category} />
         <VideoWrapper>
           {loading && <VideoSkeleton />}
           {videos?.length < 1 && (

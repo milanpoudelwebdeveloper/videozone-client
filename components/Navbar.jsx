@@ -5,7 +5,6 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-import UploadVideoModal from "./UploadVideo";
 import { Avatar } from "@mui/material";
 import SignUpModal from "./SignUpModal";
 
@@ -69,7 +68,6 @@ const User = styled.div`
 `;
 
 const Navbar = () => {
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [signIn, setSignIn] = useState(false);
   const user = useSelector((state) => state.userReducer.user);
 
@@ -82,7 +80,9 @@ const Navbar = () => {
         </Search>
         {user ? (
           <User>
-            <VideoCallOutlinedIcon onClick={() => setIsOpen(true)} />
+            <Link href="/upload" target="_blank">
+              <VideoCallOutlinedIcon />
+            </Link>
             <Avatar src={user?.img} />
             {user?.name}
           </User>
@@ -93,10 +93,7 @@ const Navbar = () => {
           </Button>
         )}
       </Wrapper>
-      <UploadVideoModal
-        modalIsOpen={modalIsOpen}
-        closeModal={() => setIsOpen(false)}
-      />
+
       <SignUpModal modalIsOpen={signIn} closeModal={() => setSignIn(false)} />
     </Container>
   );

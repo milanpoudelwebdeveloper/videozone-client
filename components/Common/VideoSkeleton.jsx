@@ -1,67 +1,44 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+const SkeletonContainer = styled.div`
   width: 100%;
-  text-align: center;
-  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 80px;
 `;
 
-const Card = styled.div`
-  height: 310px;
-  width: 442px;
-  background-color: red;
-  transform: translate(1%, 9%);
-  top: 20%;
-  padding: 20px 30px;
-  display: inline-block;
-  flex-direction: column;
+const Skeleton = styled.div`
+  width: 350px;
+  height: 270px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 400% 400%;
+  animation: loading 1.2s ease-in-out infinite;
+
+  @keyframes loading {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: -135% 50%;
+    }
+  }
 `;
 
-const H1 = styled.h2`
-  width: 69%;
-  height: 20px;
-  float: right;
-  margin-right: 55px;
-`;
-
-const H2 = styled.h2`
-  width: 379px;
-  height: 200px;
-  justify-content: center;
-  text-align: center;
-  margin-bottom: 15px;
-`;
-
-const Box = styled.div``;
-
-const ThumbNail = styled.div`
-  position: relative;
-  float: left;
-  height: 16%;
-  width: 12%;
-  border-radius: 50%;
-`;
-
-const Paragraph = styled.p`
-  width: 59%;
-  height: 19px;
-  margin-left: 63px;
-  margin-top: 50px;
-`;
 export const VideoSkeleton = () => {
+  const skeletons = Array(10).fill(0);
   return (
-    <Container>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-        <Card key={i}>
-          <H2 />
-          <Box />
-          <ThumbNail />
-          <H1 />
-          <Paragraph />
-        </Card>
+    <SkeletonContainer>
+      {skeletons.map((skeleton, index) => (
+        <Skeleton key={index} />
       ))}
-    </Container>
+    </SkeletonContainer>
   );
 };
 

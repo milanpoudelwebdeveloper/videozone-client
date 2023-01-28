@@ -9,31 +9,37 @@ const Container = styled.div`
   overflow-y: hidden;
   background-color: ${({ theme }) => theme.bg};
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding-left: 14px;
+
   margin-bottom: 20px;
 `;
 
 const Category = styled.div`
   margin: 12px 6px;
   padding: 6px 12px;
-  background-color: #373737;
+  background-color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  background-color: ${({ isSelected }) => (isSelected ? "black" : "#E5E5E5")};
+  border-radius: 10px;
   white-space: nowrap;
   cursor: pointer;
-  color: #fff;
+  color: ${({ isSelected }) => (isSelected ? "#ffffff" : "black")};
   transition: all 0.3s ease;
 `;
 
 const CategoryText = styled.p`
   text-transform: capitalize;
+  font-size: 14px;
 `;
 
-const TopCategories = ({ setCategory }) => {
+const TopCategories = ({ setCategory, selectedCategory }) => {
   return (
     <Container>
       {categories?.map((category) => (
-        <Category key={category} onClick={() => setCategory(category)}>
+        <Category
+          key={category}
+          onClick={() => setCategory(category)}
+          isSelected={selectedCategory === category}
+        >
           <CategoryText>{category}</CategoryText>
         </Category>
       ))}
