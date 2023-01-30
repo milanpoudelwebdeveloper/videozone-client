@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import { Avatar } from "@mui/material";
 import SignUpModal from "./SignUpModal";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   position: sticky;
@@ -24,7 +25,7 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Search = styled.div`
+const Search = styled.form`
   width: 40%;
   position: absolute;
   left: 0;
@@ -40,6 +41,7 @@ const Search = styled.div`
 `;
 
 const Input = styled.input`
+  width: 100%;
   border: none;
   background-color: transparent;
   outline: none;
@@ -69,13 +71,26 @@ const User = styled.div`
 
 const Navbar = () => {
   const [signIn, setSignIn] = useState(false);
+  const [keyword, setKeyword] = useState("");
   const user = useSelector((state) => state.userReducer.user);
+  const router = useRouter();
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      router.push(`/search?keyword=${keyword}`);
+    }
+  };
 
   return (
     <Container>
       <Wrapper>
-        <Search>
-          <Input placeholder="Search" />
+        <Search onSubmit={searchHandler}>
+          <Input
+            placeholder="Search"
+            onChange={(e) => setKeyword(e.target.value)}
+            value={keyword}
+          />
           <SearchOutlinedIcon />
         </Search>
         {user ? (

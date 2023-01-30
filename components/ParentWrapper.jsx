@@ -13,7 +13,8 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 22px ${(props) => (props.padding ? props.padding : "96px")}};
+   width: 100%;
+  padding: 22px ${(props) => (props.padding ? props.padding : "40px")}};
 `;
 
 const ParentWrapper = ({ children, setDarkMode, darkMode, padding }) => {

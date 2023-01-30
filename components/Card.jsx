@@ -4,7 +4,7 @@ import Link from "next/link";
 import moment from "moment";
 
 const Container = styled.div`
-  width: ${(props) => (props.type !== "sm" ? "360px" : "100%")};
+  width: ${(props) => (props.type !== "sm" ? "320px" : "100%")};
   margin-bottom: ${(props) => (props.type === "sm" ? "15px" : "45px")};
   cursor: pointer;
   display: ${(props) => props.type === "sm" && "flex"};
@@ -12,10 +12,10 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: ${(props) => (props.type === "sm" ? "50px" : "202px")};
+  border-radius: 10px;
+  width: ${(props) => (props.type === "sm" ? "400px" : "100%")};
+  height: ${(props) => (props.type === "sm" ? "200px" : "202px")};
   background-color: #999;
-  flex: 1;
 `;
 
 const Details = styled.div`
@@ -56,7 +56,7 @@ const Card = ({ type, video }) => {
   return (
     <Link href={`/video/${video?.id}`}>
       <Container type={type}>
-        <Image src={video?.thumbnail} />
+        <Image src={video?.thumbnail} type={type} />
         <Details>
           {video?.channelimage && (
             <ChannelImage type={type} src={video?.channelimage} />

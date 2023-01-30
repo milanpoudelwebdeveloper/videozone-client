@@ -12,6 +12,24 @@ import "react-toastify/dist/ReactToastify.css";
 import AuthCheck from "../components/AuthCheck";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+import NProgress from "nprogress";
+
+import "nprogress/nprogress.css";
+
+import Router from "next/router";
+
+Router.events.on("routeChangeStart", () => {
+  NProgress.start();
+});
+
+Router.events.on("routeChangeComplete", () => {
+  NProgress.done();
+});
+
+Router.events.on("routeChangeError", () => {
+  NProgress.done();
+});
+
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700"],
   subsets: ["latin"],

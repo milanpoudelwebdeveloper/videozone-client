@@ -5,6 +5,7 @@ const SkeletonContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: ${(props) => props.direction};
   gap: 80px;
 `;
 
@@ -31,11 +32,11 @@ const Skeleton = styled.div`
   }
 `;
 
-export const VideoSkeleton = () => {
+export const VideoSkeleton = ({ direction = "row" }) => {
   const skeletons = Array(10).fill(0);
   return (
-    <SkeletonContainer>
-      {skeletons.map((skeleton, index) => (
+    <SkeletonContainer direction={direction}>
+      {skeletons.map((_, index) => (
         <Skeleton key={index} />
       ))}
     </SkeletonContainer>
